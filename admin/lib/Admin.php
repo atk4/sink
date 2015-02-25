@@ -21,6 +21,7 @@ class Admin extends App_Admin {
         $sm ->addMenuItem('realtime/console', 'Real-time console');
 
 
+
         try {
             $this->dbConnect();
         } catch(BaseException $e){
