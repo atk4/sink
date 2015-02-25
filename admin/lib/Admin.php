@@ -20,7 +20,9 @@ class Admin extends App_Admin {
 
         $sm ->addMenuItem('realtime/console', 'Real-time console');
 
+        $sm = $this->api->menu->addMenu('Miscelanious');
 
+        $sm ->addMenuItem('misc/alertbutton', 'Alert Button');
 
         try {
             $this->dbConnect();
