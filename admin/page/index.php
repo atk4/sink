@@ -1,9 +1,7 @@
 <?php
 
 /**
- * Created by Konstantin Kolodnitsky
- * Date: 25.11.13
- * Time: 14:57
+ * Created by Romans Malinovskis
  */
 class page_index extends Page {
 
@@ -12,10 +10,8 @@ class page_index extends Page {
     function init() {
         parent::init();
         $this->add('View_Box')
-            ->setHTML('Welcome to your new Web App Project. Get started by opening '.
-                '<b>admin/page/index.php</b> file in your text editor and '.
-                '<a href="http://book.agiletoolkit.org/" target="_blank">Reading '.
-                'the documentation</a>.');
+            ->setHTML('Welcome to the Kitchen Sink project. The purpose of this project '.
+                ' is to show-case various techniques and examples of Agile Toolkit 4.3. ');
 
     }
 
