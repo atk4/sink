@@ -15,6 +15,24 @@ class Admin extends App_Admin {
         $sm = $this->api->menu->addMenu('Core Features');
 
         $sm ->addMenuItem('core/hello', 'Hello World');
+
+        $sm = $this->api->menu->addMenu('Real-time components');
+
+        $sm ->addMenuItem('realtime/console', 'Real-time console');
+
+
+        try {
+            $this->dbConnect();
+        } catch(BaseException $e){
+            $this->layout->add('Button',null,'User_Menu')
+                ->set(['Set up Database', 'swatch'=>'red', 'icon'=>'attention'])
+                ->link('/db')
+                ->setAttr('title', $e->getText())
+                ->js(true)->tooltip();
+
+            // unable to connect.
+        }
+
     }
 }
 
