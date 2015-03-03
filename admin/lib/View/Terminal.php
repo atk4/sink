@@ -33,7 +33,8 @@ class View_Terminal extends View {
         if($_GET['sse']){
             header('Content-Type: text/event-stream');
             header('Cache-Control: no-cache');
-            header("Cache-Control: private");
+            header('Cache-Control: private');
+            header('Content-Encoding: none;');
             header("Pragma: no-cache");
 
 
@@ -82,6 +83,10 @@ class View_Terminal extends View {
 
         $url=$this->app->url(null,array('sse'=>true));
         $key=$this->getJSID().'_console';
+
+
+        // TODO: implement this:
+        // http://www.qlambda.com/2012/10/smoothly-scroll-element-inside-div-with.html
 
 
         parent::render();
