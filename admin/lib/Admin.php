@@ -16,6 +16,10 @@ class Admin extends App_Admin {
 
         $sm ->addMenuItem('core/hello', 'Hello World');
 
+        $sm = $this->api->menu->addMenu('JavaScript');
+
+        $sm ->addMenuItem('js/timepicker', 'TimePicker');
+
         $sm = $this->api->menu->addMenu('Real-time components');
 
         $sm ->addMenuItem('realtime/console', 'Real-time console');
