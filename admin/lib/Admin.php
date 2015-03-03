@@ -43,10 +43,3 @@ class Admin extends App_Admin {
     }
 }
 
-
-
-        // For improved compatibility with Older Toolkit. See Documentation.
-        // $this->add('Controller_Compat42')
-        //     ->useOldTemplateTags()
-        //     ->useOldStyle()
-        //     ->useSMLite();
