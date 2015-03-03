@@ -15,25 +15,14 @@ class page_realtime_console extends Page
     {
         parent::init();
 
-        $io = $this->add('View_Terminal')->getProcessIO();
-        $io->debug();
+        $this->add('View_Terminal')
+            ->getProcessIO()
+            ->exec('./misc/runner.sh','s/l/r/g');
+
 
         return;
-
-        $io->exec('/usr/bin/sed','s/l/r/g');
-
-        $io->write('coca cola');
-        $out=$io->select();
-
-        var_dump($out);
-
-return;
-        $this->expects($out,'coca cora');
-
-        $io->write('little love');
-        $out=$io->read_line();
-        $this->expects($out,'rittre rove');
-
-        $this->terminate();
+        // Alternatively
+        $this->add('View_Terminal')
+            ->setStream($stream);
     }
 }

@@ -1,5 +1,33 @@
 <?php
 class View_Terminal extends View {
+    public $process = null;     // ProcessIO, if set
+    public $streams = [];     // PHP stream if set.
+
+    /**
+     * Sends text through SSE channel. Text may contain newlines
+     * which will be transmitted proprely. Optionally you can
+     * specify ID also.
+     */
+    function sseMessageLine($text, $id=null){
+        if(!is_null($id))echo "id: $id\n";
+
+        $text = explode("\n", $text);
+        $text = "data: ".join("\ndata: ", $text)."\n\n";
+        echo $text;
+        flush();
+    }
+
+    /**
+     * Sends text or structured data through SSE channel encoded
+     * in JSON format. You may supply id argument.
+     */
+    function sseMessageJSON($text, $id=null){
+        if(!is_null($id))echo "id: $id\n";
+
+        $text = "data: ".json_encode($text)."\n\n";
+        echo $text;
+        flush();
+    }
 
     function render(){
         if($_GET['sse']){
@@ -11,20 +39,41 @@ class View_Terminal extends View {
 
             if (ob_get_level()) ob_end_clean();
 
-            //for ($i = 0; $i < ob_get_level(); $i++)
-//ob_end_flush();
-//ob_implicit_flush(1);
+
+            // If the process is running, it will have
+            // stdout we can read:
+            if($this->process){
+                // fetch streams
+                if(!$this->process->pipes['out']){
+                    throw $this->exception('If you associate console with the process, you should execute it.');
+                }
+                $this->streams[] = $this->process->pipes['out'];
+            }
+
+            for($x=1;$x<20;$x++){
+
+                $read = $this->streams; // copy
+                $write = $except = [];
+
+                if (($foo=stream_select($read, $write, $except, 5))!== false){
+                    foreach($read as $socket){
+                    // there could be only one in theory
+                        //$data = stream_socket_recvfrom($socket, 10000);
+                        $data = rtrim(fgets($socket), "\n");
+                        if($data) $this->sseMessageLine($data);
+                    }
+                }
+            }
 
 
+/*
 
-
-            for($x=1;$x<5;$x++){
-                echo "data: xxxx =  $x\n";
                 $time = date('r');
-                echo "data: The server time is: {$time}\n\n";
-                flush();
+                $msg= "The server time \nis: {$time}";
+                $this->sseMessageJSON($msg);
                 sleep(2);
             }
+            */
 
 
 
@@ -32,25 +81,33 @@ class View_Terminal extends View {
         }
 
         $url=$this->app->url(null,array('sse'=>true));
+        $key=$this->getJSID().'_console';
 
+
+        parent::render();
         $this->output(<<<EOF
 <script>
 var source = new EventSource("$url");
+var dst = $('#$key');
 source.onmessage = function(event) {
     console.log("RECV: "+event.data, event);
+    console.log(dst);
+    dst.text(dst.text()+event.data+"\\n");
 };
 </script>
 EOF
         );
+    }
 
-        parent::render();
+    function addStream($stream){
+        $this->stream[] = $stream;
+        return this;
     }
 
     function getProcessIO(){
-
-        return $this->add('System_ProcessIO');
-
+        return $this->process = $this->add('System_ProcessIO');
     }
+
     function defaultTemplate(){
         return array('view/console');
     }
