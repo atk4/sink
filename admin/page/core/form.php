@@ -10,7 +10,9 @@ class page_core_form extends Page
     {
         parent::init();
 
-        $this->add('View_Info')->setHTML('This example is created to clarify <a href="http://programmers.stackexchange.com/a/74521/24750">this StackOverflow post</a>, which illustrates how a good framework can make your code very intuitive and easy to read.');
+        $this->add('View_Info')->setHTML('This example is created to clarify <a href="http://programmers.stackexchange.com/a/74521/24750">'.
+            'this StackOverflow post</a>, which illustrates how a good framework can make your code very intuitive and easy to read. '.
+            '<a href="https://github.com/atk4/sink/blob/master/admin/page/core/form.php#L16">See Source</a>');
 
 
         $form = $this->add('Form');
