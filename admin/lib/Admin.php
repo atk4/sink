@@ -15,6 +15,7 @@ class Admin extends App_Admin {
         $sm = $this->api->menu->addMenu('Core Features');
 
         $sm ->addMenuItem('core/hello', 'Hello World');
+        $sm ->addMenuItem('core/form', 'Basic Form');
 
         $sm = $this->api->menu->addMenu('JavaScript');
 

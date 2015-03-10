@@ -3,6 +3,8 @@ class View_Terminal extends View {
     public $process = null;     // ProcessIO, if set
     public $streams = [];     // PHP stream if set.
 
+    public $prefix = [];
+
     /**
      * Sends text through SSE channel. Text may contain newlines
      * which will be transmitted proprely. Optionally you can
@@ -48,7 +50,8 @@ class View_Terminal extends View {
                 if(!$this->process->pipes['out']){
                     throw $this->exception('If you associate console with the process, you should execute it.');
                 }
-                $this->streams[] = $this->process->pipes['out'];
+                $this->addStream($this->process->pipes['out']);
+                $this->addStream($this->process->pipes['err'],'ERR');
             }
 
             for($x=1;$x<20;$x++){
@@ -61,6 +64,13 @@ class View_Terminal extends View {
                     // there could be only one in theory
                         //$data = stream_socket_recvfrom($socket, 10000);
                         $data = rtrim(fgets($socket), "\n");
+
+                        $s=(string)$socket;
+                        if($this->prefix[$s]){
+                            $data=$this->prefix[$s].": ".$data;
+                        }
+
+
                         if($data) $this->sseMessageLine($data);
                     }
                 }
@@ -98,15 +108,34 @@ source.onmessage = function(event) {
     console.log("RECV: "+event.data, event);
     console.log(dst);
     dst.text(dst.text()+event.data+"\\n");
+
+dst.animate({
+    scrollTop: $(elemId).parent().scrollTop() + $(elemId).offset().top - $(elemId).parent().offset().top
+}, {
+    duration: 100,
+    specialEasing: {
+        width: 'linear',
+        height: 'easeOutBounce'
+    },
+    complete: function (e) {
+        console.log("animation completed");
+    }
+});
+
+
 };
 </script>
 EOF
         );
     }
 
-    function addStream($stream){
-        $this->stream[] = $stream;
-        return this;
+    function addStream($stream, $prefix=null, $color=null){
+        $this->streams[] = $stream;
+
+        if(!is_null($prefix)){
+            $this->prefix[(string)$stream] = $prefix;
+        }
+        return $this;
     }
 
     function getProcessIO(){
