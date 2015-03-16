@@ -1,19 +1,12 @@
 {
   "type":"project",
   "require":{
-    "atk4\/atk4":"4.3.*@dev",
+    "atk4\/atk4":"4.3.*",
     "educoder\/pest":"1.0.0"
   },
   "autoload":{
     "psr-0":{
       "":[ ]
-    }
-  },
-  "extra": {
-    "heroku": {
-      "document-root": "admin/public",
-      "index-document": "index.php",
-      "php-config": [ "display_errors=on" ]
     }
   }
 }
