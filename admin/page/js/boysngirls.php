@@ -17,7 +17,15 @@ class page_js_boysngirls extends Page
 
         $m_types=$this->add('Model');
         $m_types->addField('name');
-        $m_types->setSource('Array', ['Alice', 'John', 'Peter', 'Annie']);
+
+        $people = ['Alice'=>'F', 'John'=>'M', 'Peter'=>'M', 'Annie'=>'F', 'Wallet'=>'O'];
+        if($_GET['gender']){
+            $people = array_filter($people, function($v){
+                return $v == $_GET['gender'];
+            });
+        }
+
+        $m_types->setSource('Array', array_keys($people));
         $g1 = $this -> add('Grid');
         $g1->setModel($m_types,['name']);
         $g1->addButton('Filter Girls')->js('click', $g1->js()->reload(['gender'=>'F']));
