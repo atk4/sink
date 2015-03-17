@@ -12,6 +12,8 @@ class Admin extends App_Admin {
             ->setBasePath($this->pathfinder->base_location->getPath() . '/..')
         ;
 
+        $this->template->set('css','compact.css');
+
         $sm = $this->api->menu->addMenu('Core Features');
 
         $sm ->addMenuItem('core/hello', 'Hello World');
