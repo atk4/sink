@@ -30,7 +30,7 @@ class Admin extends App_Admin {
 
         $sm = $this->api->menu->addMenu('Miscelanious');
 
-        $sm ->addMenuItem('misc/alertbutton', 'Alert Button');
+        $sm ->addMenuItem('misc/alert-button', 'Alert Button');
         $sm ->addMenuItem('misc/virtual-pages', 'Virtual Pages');
 
         try {
