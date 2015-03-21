@@ -37,7 +37,7 @@ class page_realtime_console extends Page
             })
 
             ->getProcessIO()
-            ->exec('./misc/runner.sh','s/l/r/g');
+            ->exec('./misc/runner.sh');
 
 
     }
