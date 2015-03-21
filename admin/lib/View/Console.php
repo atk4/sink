@@ -1,9 +1,27 @@
 <?php
-class View_Terminal extends View {
+/**
+ * Implements a visual console, which receives information from PHP script
+ * in real-time and outputs it on the screen. Console takes advantage of
+ * server-side events in HTML5.
+ *
+ * There are several usage patters with the console. The simplest is
+ * to excetue a process and have it's output streamed into the console
+ * in real-time.
+ *
+ * You can manually specify a call-back method which will be executed
+ * and you can send regular and error output to the console with
+ * simple methods out() ond err().
+ *
+ * Finally - you can supply several streams which cosole will read
+ * from and output to the browser until streams are closed.
+ */
+class View_Console extends View {
     public $process = null;     // ProcessIO, if set
     public $streams = [];     // PHP stream if set.
 
     public $prefix = [];
+
+    public $callback = null;
 
     /**
      * Sends text through SSE channel. Text may contain newlines
@@ -31,8 +49,44 @@ class View_Terminal extends View {
         flush();
     }
 
+    /**
+     * Evaluates piece of code
+     *
+     * @param  [type] $callback function($console)
+     */
+    function set($callback){
+        $this->callback = $callback;
+        return $this;
+    }
+
+    /**
+     * Displays error on the console (in red)
+     */
+    function err($str){
+        $data = ['text'=>rtrim($str, "\n")];
+        $data['style']='color: #f88';
+        $this->sseMessageJSON($data);
+    }
+
+    /**
+     * Add ability to send javascript
+     */
+    function jsEval($str){
+        if(is_object($str))$str = $str->_render();
+        $data = ['js'=>$str];
+        $this->sseMessageJSON($data);
+    }
+
+    /**
+     * Displays output in the console
+     */
+    function out($str){
+        $data = ['text'=>rtrim($str, "\n")];
+        $this->sseMessageJSON($data);
+    }
+
     function render(){
-        if($_GET['sse']){
+        if($_GET['sse_'.$this->name]){
             header('Content-Type: text/event-stream');
             header('Cache-Control: no-cache');
             header('Cache-Control: private');
@@ -82,10 +136,19 @@ class View_Terminal extends View {
                 }
             }
 
+            if($this->callback){
+                try {
+                    call_user_func($this->callback, $this);
+                }catch(Exception $e){
+                    $this->err('Exception: '.($e instanceof BaseException?$e->getText():$e->getMessage()));
+                }
+                exit;
+            }
+
             exit;
         }
 
-        $url=$this->app->url(null,array('sse'=>true));
+        $url=$this->app->url(null,array('sse_'.$this->name=>true));
         $key=$this->getJSID().'_console';
 
 
@@ -94,12 +157,19 @@ class View_Terminal extends View {
 
 
         parent::render();
+        $j=$this->getJSID();
         $this->output(<<<EOF
 <script>
-var source = new EventSource("$url");
-var dst = $('#$key');
-source.onmessage = function(event) {
+var source_$j = new EventSource("$url");
+source_$j.onmessage = function(event) {
+    var dst = $('#$key');
     var data=$.parseJSON(event.data);
+
+    if(data.js){
+        eval(data.js);
+        return;
+    }
+
     var text=data.text;
 
     if(data.class)text='<span class="'+data.class+'">'+text+'</span>';
@@ -111,7 +181,7 @@ source.onmessage = function(event) {
     dst.stop().animate({scrollTop:height});
 
 };
-source.onerror = function(event) {
+source_$j.onerror = function(event) {
     event.target.close();
 }
 </script>
@@ -138,5 +208,4 @@ EOF
     function defaultTemplate(){
         return array('view/console');
     }
-
 }
