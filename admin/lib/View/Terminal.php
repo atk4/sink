@@ -51,42 +51,36 @@ class View_Terminal extends View {
                     throw $this->exception('If you associate console with the process, you should execute it.');
                 }
                 $this->addStream($this->process->pipes['out']);
-                $this->addStream($this->process->pipes['err'],'ERR');
+                $this->addStream($this->process->pipes['err'],'ERR','#f88');
             }
 
-            for($x=1;$x<20;$x++){
-
+            while($this->streams){
                 $read = $this->streams; // copy
                 $write = $except = [];
 
                 if (($foo=stream_select($read, $write, $except, 5))!== false){
                     foreach($read as $socket){
-                    // there could be only one in theory
-                        //$data = stream_socket_recvfrom($socket, 10000);
-                        $data = rtrim(fgets($socket), "\n");
+                        $data = fgets($socket);
+                        if($data === false){
+                            if(($key = array_search($socket, $this->streams)) !== false) {
+                                unset($this->streams[$key]);
+                            }
+                            continue;
+                        }
+                        $data = ['text'=>rtrim($data, "\n")];
 
                         $s=(string)$socket;
                         if($this->prefix[$s]){
-                            $data=$this->prefix[$s].": ".$data;
+                            $data['text']=$this->prefix[$s].": ".$data['text'];
+                        }
+                        if($this->color[$s]){
+                            $data['style']='color: '.$this->color[$s];
                         }
 
-
-                        if($data) $this->sseMessageLine($data);
+                        if($data) $this->sseMessageJSON($data);
                     }
                 }
             }
-
-
-/*
-
-                $time = date('r');
-                $msg= "The server time \nis: {$time}";
-                $this->sseMessageJSON($msg);
-                sleep(2);
-            }
-            */
-
-
 
             exit;
         }
@@ -105,25 +99,21 @@ class View_Terminal extends View {
 var source = new EventSource("$url");
 var dst = $('#$key');
 source.onmessage = function(event) {
-    console.log("RECV: "+event.data, event);
-    console.log(dst);
-    dst.text(dst.text()+event.data+"\\n");
+    var data=$.parseJSON(event.data);
+    var text=data.text;
 
-dst.animate({
-    scrollTop: $(elemId).parent().scrollTop() + $(elemId).offset().top - $(elemId).parent().offset().top
-}, {
-    duration: 100,
-    specialEasing: {
-        width: 'linear',
-        height: 'easeOutBounce'
-    },
-    complete: function (e) {
-        console.log("animation completed");
-    }
-});
+    if(data.class)text='<span class="'+data.class+'">'+text+'</span>';
+    if(data.style)text='<span style="'+data.style+'">'+text+'</span>';
 
+    dst.html(dst.html()+text+"\\n");
+    var height = dst[0].scrollHeight;
+    console.log(height);
+    dst.stop().animate({scrollTop:height});
 
 };
+source.onerror = function(event) {
+    event.target.close();
+}
 </script>
 EOF
         );
@@ -134,6 +124,9 @@ EOF
 
         if(!is_null($prefix)){
             $this->prefix[(string)$stream] = $prefix;
+        }
+        if(!is_null($color)){
+            $this->color[(string)$stream] = $color;
         }
         return $this;
     }
