@@ -4,21 +4,21 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c96797fa2423da5f35cbd0ff7443239c",
+    "hash": "461fcd5c07fb1525a6b2c74266cd9ada",
     "packages": [
         {
             "name": "atk4/atk4",
-            "version": "4.3.x-dev",
+            "version": "4.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/atk4/atk4.git",
-                "reference": "origin/4.3"
+                "reference": "9ac0f6c8644323780244b602e06bab3703a97dc0"
             },
             "dist": {
                 "type": "zip",
-                "url": "http://agiletoolkit.org/distfiles/agiletoolkit-4.2.4.zip",
-                "reference": null,
-                "shasum": null
+                "url": "https://api.github.com/repos/atk4/atk4/zipball/9ac0f6c8644323780244b602e06bab3703a97dc0",
+                "reference": "9ac0f6c8644323780244b602e06bab3703a97dc0",
+                "shasum": ""
             },
             "type": "library",
             "autoload": {
@@ -30,12 +30,15 @@
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
             "homepage": "https://agiletoolkit.org/",
             "keywords": [
                 "atk4",
                 "framework"
             ],
-            "time": "2015-01-13 15:26:54"
+            "time": "2015-03-16 16:27:31"
         },
         {
             "name": "educoder/pest",
@@ -83,9 +86,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "atk4/atk4": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
