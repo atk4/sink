@@ -14,6 +14,17 @@ class Admin extends App_Admin {
 
         $this->template->set('css','compact.css');
 
+        list($prefix) = explode('_',$this->page);
+        if($prefix == 'employees'){
+            $this->initEmployees();
+        }else{
+            $this->initBasic();
+        }
+
+        $this->layout->menu->js(true)->find('.active')->removeClass('atk-swatch-ink')->addClass('atk-swatch-blue');
+    }
+
+    function initBasic(){
         $sm = $this->api->menu->addMenu('Core Features');
 
         $sm ->addMenuItem('core/hello', 'Hello World');
@@ -41,10 +52,32 @@ class Admin extends App_Admin {
                 ->link('/db')
                 ->setAttr('title', $e->getText())
                 ->js(true)->tooltip();
-
-            // unable to connect.
         }
 
     }
-}
 
+    function initEmployees(){
+        $br = $this->menu->addItem('Browse Employee Data','employees/browse');
+
+        try {
+            $this->dbConnect('dsn-employees');
+        } catch(BaseException $e){
+            $this->layout->add('Button',null,'User_Menu')
+                ->set(['Set up Employees Database', 'swatch'=>'red', 'icon'=>'attention'])
+                ->link('/employees')
+                ->setAttr('title', $e->getText())
+                ->js(true)->tooltip();
+        }
+
+
+    }
+
+    function initTopMenu() {
+        $m=$this->layout->add('Menu_Horizontal',['highlight_subpages'=>true,'hover_swatch'=>'blue'],'Top_Menu');
+        $m->addItem('Basic Examples','/');
+        $m->addItem('Employee DB','/employees');
+        $m->addItem('AgileToolkit','/sandbox/dashboard');
+        $m->addItem('Documentation','http://book.agiletoolkit.org/');
+        $m->js(true)->find('.active')->removeClass('atk-swatch-ink')->addClass('atk-swatch-blue');
+    }
+}
