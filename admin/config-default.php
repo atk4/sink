@@ -6,3 +6,5 @@ $config['dsn'] = array(
     //'username',
     //'password'
 );
+
+$config['dsn-employees'] = 'mysql://root:root@127.0.0.1/employees';

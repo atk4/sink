@@ -1,0 +1,38 @@
+
+<div id="{$_name}" class="page_{$_page} atk-size-mega">
+  <h2>Employee Database Demos</h2>
+  <p>
+    This section of the "Sink" applictaion demonstrates how to access real-life data-base through Agile Toolkit.
+    <a href="https://github.com/datacharmer/test_db" target="blank">test_db</a> is a public project containing 
+    a prety sizeable data-set for testing applications and data-bases containing about 300,000 employee records
+    with about 2.8 mil. salary records. With such a data-set we focus on demonstating how to efficiently query
+    this data.
+  </p><img src="{public}image/employees-db.png{/}"/>
+  <p class="atk-effect-danger">
+    You will need to configure your database and import the data before accessing any of the demos here.
+    
+  </p>
+  <h3>1. Install Employee database on your local machine</h3>
+  <p>Follow the <a href="https://github.com/datacharmer/test_db" target="blank">link to test_db project</a> then
+    click "Download ZIP" button. Run "mysql &lt; employees_partitioned.sql" in your command-line from this new
+    folder and if you have any problems, refer to test_db documentation. This will create "employees" database
+    for you.
+    
+  </p>
+  <h3>2. Configure SQL access</h3>
+  <p>
+    As per "admin/config-default.php" file your default access string is "mysql://root:root@127.0.0.1/employees".
+    If you need to use a different MySQL username or password to connect, then create file "admin/config.php"
+    with the following inside:
+    
+  </p>
+  <div class="atk-box"><code>
+      <pre>&lt;?php
+
+$config['dsn-employees'] = 'mysql://user:secret@127.0.0.1/employees';
+</pre></code></div>
+  <p>
+    Refresh this page and the warning on the top-rigtht corner should now dissapear. 
+    
+  </p>{$Content}
+</div>
