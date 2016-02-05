@@ -5,6 +5,7 @@
         "This file is @generated automatically"
     ],
     "hash": "cc1e5c868abb597ea8dfce72da8a4e39",
+    "content-hash": "7948fc81034b786f3e24890de05c9906",
     "packages": [
         {
             "name": "atk4/atk4",
@@ -12,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/atk4/atk4.git",
-                "reference": "499e83c392f0eb7f35e3081a68c8fa047b106506"
+                "reference": "443f110e1f08d81d3785a0f9da18f42da69c297e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/atk4/atk4/zipball/499e83c392f0eb7f35e3081a68c8fa047b106506",
-                "reference": "499e83c392f0eb7f35e3081a68c8fa047b106506",
+                "url": "https://api.github.com/repos/atk4/atk4/zipball/443f110e1f08d81d3785a0f9da18f42da69c297e",
+                "reference": "443f110e1f08d81d3785a0f9da18f42da69c297e",
                 "shasum": ""
             },
             "type": "library",
@@ -38,7 +39,7 @@
                 "atk4",
                 "framework"
             ],
-            "time": "2015-09-17 20:20:49"
+            "time": "2016-02-04 18:10:53"
         },
         {
             "name": "educoder/pest",
