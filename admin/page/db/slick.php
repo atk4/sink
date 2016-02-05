@@ -13,6 +13,18 @@ class page_db_slick extends Page {
 
         $t=$this->add('Tabs');
 
+        $tt = $t->addTab('Info');
+        $tt->add('H2')->set('Comparing Agile ORM with Slick 3.1.0 (Scala)');
+        $tt->add('P')->set('Slick is a Functional Relational Mapping (FRM) library for Scala that makes it easy to work with relational databases. One of teh benefits of Slick is type-safety but it also makes it easier to create expressions.');
+
+        $tt->add('P')->set('Slick is a great library but I wanted to see how Agile ORM measures up. PHP has no type-safety, but all the other features of Slick seem to be working with Agile ORM also. I have only focused on the examples presented on SQL-to-Slick page.');
+
+        $tt->add('Button')->link('http://slick.typesafe.com/doc/3.1.0/sql-to-slick.html')->setAttr('target','_blank')
+            ->set('Open Slick examples in a new window')->addClass('atk-push');
+
+        $tt->add('P')->set('Once open, compare sections with Agile ORM implementation in the following tabs.');
+
+
         $tt = $t->addTab('Setup');
         $tt->add('CRUD')->setModel($this->person);
         $tt->add('CRUD')->setModel('Address');
