@@ -22,6 +22,12 @@ class Admin extends App_Admin {
         }
 
         $this->layout->menu->js(true)->find('.active')->removeClass('atk-swatch-ink')->addClass('atk-swatch-blue');
+
+    }
+    function initLayout(){
+        parent::initLayout();
+        $this->page_object->add('View_ForkMe');
+
     }
 
     function initBasic(){
