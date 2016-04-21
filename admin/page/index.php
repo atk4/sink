@@ -10,8 +10,6 @@ class page_index extends Page {
     function init() {
         parent::init();
 
-        $this->add('View_ForkMe');
-
 
         $this->add('View_Box')
             ->setHTML('Welcome to the Kitchen Sink project. The purpose of this project '.
