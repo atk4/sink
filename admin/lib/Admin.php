@@ -26,7 +26,7 @@ class Admin extends App_Admin {
     }
     function initLayout(){
         parent::initLayout();
-        $this->page_object->add('View_ForkMe');
+        if(!$_GET['cut_page'])$this->page_object->add('View_ForkMe');
 
     }
 
@@ -35,6 +35,7 @@ class Admin extends App_Admin {
 
         $sm ->addMenuItem('core/hello', 'Hello World');
         $sm ->addMenuItem('core/form', 'Basic Form');
+        $sm ->addMenuItem('core/validation', 'Validation');
 
         $sm = $this->api->menu->addMenu('JavaScript');
 
