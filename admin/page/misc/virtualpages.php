@@ -68,7 +68,8 @@ class page_misc_virtualpages extends Page {
 
 
         $vp = $gr->add('VirtualPage');
-        $vp->addColumn('test4');
+        $vp->addColumn('test4','Delete', ['icon'=>'trash']);
+        $gr->js(true)->_selector('.pb_test4')->addClass('atk-swatch-red');
         $vp->set(function($p){
             $p->add('View_Info')->set('A more integrated way to get id='.$p->id);
         });
