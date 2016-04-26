@@ -33,27 +33,28 @@ class Admin extends App_Admin {
     function initBasic(){
         $sm = $this->api->menu->addMenu('Core Features');
 
-        $sm ->addMenuItem('core/hello', 'Hello World');
-        $sm ->addMenuItem('core/form', 'Basic Form');
-        $sm ->addMenuItem('core/validation', 'Validation');
+        $sm ->addItem('Hello World', 'core/hello');
+        $sm ->addItem('Basic Form', 'core/form');
+        $sm ->addItem('Validation', 'core/validation');
+        $sm ->addItem('Virtual Page', 'core/vp');
 
         $sm = $this->api->menu->addMenu('JavaScript');
 
-        $sm ->addMenuItem('js/timepicker', 'TimePicker');
-        $sm ->addMenuItem('js/boys-n-girls', 'Boys and Girls');
-        $sm ->addMenuItem('js/dog-n-cat', 'Dog and Cat');
+        $sm ->addItem('TimePicker', 'js/timepicker');
+        $sm ->addItem('Boys and Girls', 'js/boys-n-girls');
+        $sm ->addItem('Dog and Cat', 'js/dog-n-cat');
 
         $sm = $this->api->menu->addMenu('Agile ORM Compared');
         $sm->addItem('.. with Slick 3.1.0 (scala)','db/slick');
 
         $sm = $this->api->menu->addMenu('Real-time components');
 
-        $sm ->addMenuItem('realtime/console', 'Real-time console');
+        $sm ->addItem('Real-time console', 'realtime/console');
 
         $sm = $this->api->menu->addMenu('Miscelanious');
 
-        $sm ->addMenuItem('misc/alert-button', 'Alert Button');
-        $sm ->addMenuItem('misc/virtual-pages', 'Virtual Pages');
+        $sm ->addItem('Alert Button', 'misc/alert-button');
+        $sm ->addItem('Virtual Pages', 'misc/virtual-pages');
 
         try {
             $this->dbConnect();
