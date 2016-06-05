@@ -26,20 +26,23 @@ class Admin extends App_Admin {
     }
     function initLayout(){
         parent::initLayout();
-        $this->page_object->add('View_ForkMe');
+        if(!$_GET['cut_page'])$this->page_object->add('View_ForkMe');
 
     }
 
     function initBasic(){
         $sm = $this->api->menu->addMenu('Core Features');
 
-        $sm ->addMenuItem('core/hello', 'Hello World');
-        $sm ->addMenuItem('core/form', 'Basic Form');
+        $sm ->addItem('Hello World', 'core/hello');
+        $sm ->addItem('Basic Form', 'core/form');
+        $sm ->addItem('Validation', 'core/validation');
+        $sm ->addItem('Virtual Page', 'core/vp');
 
         $sm = $this->api->menu->addMenu('JavaScript');
 
-        $sm ->addMenuItem('js/timepicker', 'TimePicker');
-        $sm ->addMenuItem('js/boys-n-girls', 'Boys and Girls');
+        $sm ->addItem('TimePicker', 'js/timepicker');
+        $sm ->addItem('Boys and Girls', 'js/boys-n-girls');
+        $sm ->addItem('Dog and Cat', 'js/dog-n-cat');
 
         $sm = $this->api->menu->addMenu('Agile Data');
         $sm->addItem('.. vs Slick 3.1.0 (scala)','db/slick');
@@ -47,12 +50,12 @@ class Admin extends App_Admin {
 
         $sm = $this->api->menu->addMenu('Real-time components');
 
-        $sm ->addMenuItem('realtime/console', 'Real-time console');
+        $sm ->addItem('Real-time console', 'realtime/console');
 
         $sm = $this->api->menu->addMenu('Miscelanious');
 
-        $sm ->addMenuItem('misc/alert-button', 'Alert Button');
-        $sm ->addMenuItem('misc/virtual-pages', 'Virtual Pages');
+        $sm ->addItem('Alert Button', 'misc/alert-button');
+        $sm ->addItem('Virtual Pages', 'misc/virtual-pages');
 
         try {
             $this->dbConnect();
