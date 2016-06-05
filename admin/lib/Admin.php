@@ -41,8 +41,9 @@ class Admin extends App_Admin {
         $sm ->addMenuItem('js/timepicker', 'TimePicker');
         $sm ->addMenuItem('js/boys-n-girls', 'Boys and Girls');
 
-        $sm = $this->api->menu->addMenu('Agile ORM Compared');
-        $sm->addItem('.. with Slick 3.1.0 (scala)','db/slick');
+        $sm = $this->api->menu->addMenu('Agile Data');
+        $sm->addItem('.. vs Slick 3.1.0 (scala)','db/slick');
+        $sm->addItem('Readme Example','db/example');
 
         $sm = $this->api->menu->addMenu('Real-time components');
 
