@@ -43,6 +43,7 @@ class Admin extends App_Admin {
         $sm ->addItem('TimePicker', 'js/timepicker');
         $sm ->addItem('Boys and Girls', 'js/boys-n-girls');
         $sm ->addItem('Dog and Cat', 'js/dog-n-cat');
+        $sm ->addItem('Autofill Email', 'js/email-fill');
 
         $sm = $this->api->menu->addMenu('Agile Data');
         $sm->addItem('.. vs Slick 3.1.0 (scala)','db/slick');
